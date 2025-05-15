@@ -15,20 +15,24 @@ import os
 # Настройка базовой директории
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Явная загрузка .env
-load_dotenv(dotenv_path=BASE_DIR / '.env')  # <-- важно
-
 # Инициализация окружения
-env = environ.Env()
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 environ.Env.read_env(BASE_DIR / ".env")  # <-- важно
 TEMPLATE_DIR = BASE_DIR / 'templates'
 
-# Загрузка .env из корня проекта
-load_dotenv(BASE_DIR / '.env')  # BASE_DIR уже должен быть определён
+# На это (с fallback значениями):
+# SECRET_KEY = os.getenv('SECRET_KEY', 'dummy-key-for-dev-only')
+# DEBUG = os.getenv('DEBUG', 'False') == 'True'
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # Security settings
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool("DEBUG", default=False)
+# Для ALLOWED_HOSTS
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
@@ -37,8 +41,6 @@ SECURE_SSL_REDIRECT = not DEBUG
 # Render проксирует HTTPS, и без этого Django может думать, что это HTTP
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Для ALLOWED_HOSTS
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 
 # Application definition
@@ -87,14 +89,49 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-# DATABASES = {"default": env.db("DATABASE_URL")}  # Автопарсинг!
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     },
+#     'postgres': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'dbname_a2fl',
+#         'USER': 'admin',
+#         'PASSWORD': '3zli6AM6tHNYCfCligwOAJ48jEzfQdYO',
+#         'HOST': 'dpg-d0iu8cq4d50c73dvtj50-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'dbname_a2fl',
+#         'USER': 'admin',
+#         'PASSWORD': '3zli6AM6tHNYCfCligwOAJ48jEzfQdYO',
+#         'HOST': 'dpg-d0iu8cq4d50c73dvtj50-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
+# DATABASES = {
+#     'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'),
+#     'postgres': dj_database_url.config(env='RENDER_POSTGRES_URL')
+# }
+DATABASE_URL = env("DATABASE_URL", default=None)
+
+if DATABASE_URL:
+    DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
+else:
+    DATABASES = {
+        "default": env.db(default="sqlite:///db.sqlite3")
+    }
 # Database
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+#         conn_max_age=600
+#     )
+# }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
