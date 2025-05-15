@@ -20,7 +20,7 @@ attrs==25.3.0
     # via aiohttp
 beautifulsoup4==4.13.4
     # via project-1 (pyproject.toml)
-certifi==2025.4.26
+certifi==2024.12.14
     # via requests
 cffi==1.17.1
     # via pycares
@@ -32,10 +32,13 @@ cloudscraper==1.2.71
     # via project-1 (pyproject.toml)
 crispy-bootstrap5==2025.4
     # via project-1 (pyproject.toml)
+dj-database-url==2.3.0
+    # via project-1 (pyproject.toml)
 django==5.2.1
     # via
     #   project-1 (pyproject.toml)
     #   crispy-bootstrap5
+    #   dj-database-url
     #   django-crispy-forms
     #   djangorestframework
 django-crispy-forms==2.4
@@ -85,7 +88,7 @@ pandas==2.2.3
     # via project-1 (pyproject.toml)
 pipx==1.7.1
     # via project-1 (pyproject.toml)
-platformdirs==4.3.8
+platformdirs==4.3.6
     # via pipx
 plotly==6.0.1
     # via project-1 (pyproject.toml)
@@ -93,6 +96,8 @@ propcache==0.3.1
     # via
     #   aiohttp
     #   yarl
+psycopg2==2.9.10
+    # via project-1 (pyproject.toml)
 pycares==4.8.0
     # via aiodns
 pycparser==2.22
@@ -120,8 +125,10 @@ sqlparse==0.5.3
     # via django
 tqdm==4.67.1
     # via project-1 (pyproject.toml)
-typing-extensions==4.13.2
-    # via beautifulsoup4
+typing-extensions==4.12.2
+    # via
+    #   beautifulsoup4
+    #   dj-database-url
 tzdata==2025.2
     # via pandas
 urllib3==2.4.0
@@ -130,5 +137,7 @@ urllib3==2.4.0
     #   requests
 userpath==1.9.2
     # via pipx
+whitenoise==6.9.0
+    # via project-1 (pyproject.toml)
 yarl==1.20.0
     # via aiohttp

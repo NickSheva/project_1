@@ -27,7 +27,9 @@ dependencies = [
     "pandas>=2.2.3",
     "pipx>=1.7.1",
     "plotly>=6.0.1",
+    "psycopg2>=2.9.10",
     "requests>=2.32.3",
     "tqdm>=4.67.1",
     "urllib3>=2.4.0",
+    "whitenoise>=6.9.0",
 ]

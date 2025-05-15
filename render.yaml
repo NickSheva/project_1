@@ -1,15 +1,15 @@
 services:
   - type: web
     name: django-app
-    env: python
+    runtime: python
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
       python manage.py migrate --noinput
     startCommand: gunicorn config.wsgi:application
     envVars:
-      - key: DJANGO_SECRET_KEY
-        value: your-secret-key
+      - key: SECRET_KEY
+        generateValue: true  # Пусть Render сам сгенерирует ключ
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
@@ -17,4 +17,4 @@ services:
       - key: DATABASE_URL
         fromDatabase:
           name: your-db
-          property: connectionString
+          property: connectionString  # Render подставит реальный URL

@@ -10,17 +10,21 @@ import environ
 from loguru import logger
 import sys
 from dotenv import load_dotenv  # Для загрузки переменных окружения
+import os
 
-# Загрузка переменных окружения
-load_dotenv()
-
-env = environ.Env()
-environ.Env.read_env() # Загружает .env
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Настройка базовой директории
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Явная загрузка .env
+load_dotenv(dotenv_path=BASE_DIR / '.env')  # <-- важно
+
+# Инициализация окружения
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env")  # <-- важно
 TEMPLATE_DIR = BASE_DIR / 'templates'
 
-
+# Загрузка .env из корня проекта
+load_dotenv(BASE_DIR / '.env')  # BASE_DIR уже должен быть определён
 
 # Security settings
 SECRET_KEY = env('SECRET_KEY')
@@ -56,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -141,3 +146,7 @@ logger.add(
 
 # Если нужно сохранять логи в файл, добавьте:
 # logger.add("logs/file_{time}.log", rotation="10 MB", retention="10 days")
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
