@@ -41,12 +41,12 @@ class ProductAdmin(admin.ModelAdmin):
     #         product.cities.set(city_objs)
 
 
-# @admin.register(Brand)
-# class BrandAdmin(admin.ModelAdmin):
-#     search_fields = ('name',)
-#     prepopulated_fields = {"slug": ("name",)}
-#     list_display = ['name', 'slug']
-#
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    prepopulated_fields = {"slug": ("name",)}
+    list_display = ['name', 'slug']
+
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     list_display = ['name',]
