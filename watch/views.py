@@ -25,6 +25,7 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        print("⏳ ДО фильтров:", queryset.count())
         self.form = ProductFilterForm(self.request.GET)
 
         if self.form.is_valid():
@@ -47,7 +48,10 @@ class ProductListView(ListView):
         print("GET:", self.request.GET)
         print("is_valid:", self.form.is_valid())
         print("cleaned_data:", self.form.cleaned_data)
-        return queryset.order_by('created_at')
+        # фильтрация
+        print("✅ ПОСЛЕ фильтров:", queryset.count())
+        return queryset
+        # return queryset.order_by('created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

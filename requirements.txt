@@ -21,7 +21,9 @@ attrs==25.3.0
 beautifulsoup4==4.13.4
     # via project-1 (pyproject.toml)
 certifi==2024.12.14
-    # via requests
+    # via
+    #   requests
+    #   sentry-sdk
 cffi==1.17.1
     # via pycares
 charset-normalizer==3.4.2
@@ -40,12 +42,15 @@ django==5.2.1
     #   crispy-bootstrap5
     #   dj-database-url
     #   django-crispy-forms
+    #   django-debug-toolbar
     #   django-extensions
     #   djangorestframework
 django-crispy-forms==2.4
     # via
     #   project-1 (pyproject.toml)
     #   crispy-bootstrap5
+django-debug-toolbar==5.2.0
+    # via project-1 (pyproject.toml)
 django-environ==0.12.0
     # via project-1 (pyproject.toml)
 django-extensions==4.1
@@ -101,6 +106,8 @@ propcache==0.3.1
     #   yarl
 psycopg2==2.9.10
     # via project-1 (pyproject.toml)
+psycopg2-binary==2.9.10
+    # via project-1 (pyproject.toml)
 pycares==4.8.0
     # via aiodns
 pycparser==2.22
@@ -122,12 +129,16 @@ requests==2.32.3
     #   requests-toolbelt
 requests-toolbelt==1.0.0
     # via cloudscraper
+sentry-sdk==2.28.0
+    # via project-1 (pyproject.toml)
 six==1.17.0
     # via python-dateutil
 soupsieve==2.7
     # via beautifulsoup4
 sqlparse==0.5.3
-    # via django
+    # via
+    #   django
+    #   django-debug-toolbar
 tqdm==4.67.1
     # via project-1 (pyproject.toml)
 typing-extensions==4.12.2
@@ -140,6 +151,7 @@ urllib3==2.4.0
     # via
     #   project-1 (pyproject.toml)
     #   requests
+    #   sentry-sdk
 userpath==1.9.2
     # via pipx
 whitenoise==6.9.0
