@@ -20,6 +20,8 @@ attrs==25.3.0
     # via aiohttp
 beautifulsoup4==4.13.4
     # via project-1 (pyproject.toml)
+brotli==1.1.0
+    # via whitenoise
 certifi==2024.12.14
     # via
     #   requests
@@ -29,7 +31,9 @@ cffi==1.17.1
 charset-normalizer==3.4.2
     # via requests
 click==8.2.0
-    # via userpath
+    # via
+    #   userpath
+    #   uvicorn
 cloudscraper==1.2.71
     # via project-1 (pyproject.toml)
 crispy-bootstrap5==2025.4
@@ -69,6 +73,8 @@ frozenlist==1.6.0
     #   aiosignal
 gunicorn==23.0.0
     # via project-1 (pyproject.toml)
+h11==0.16.0
+    # via uvicorn
 idna==3.10
     # via
     #   requests
@@ -154,6 +160,8 @@ urllib3==2.4.0
     #   sentry-sdk
 userpath==1.9.2
     # via pipx
+uvicorn==0.34.2
+    # via project-1 (pyproject.toml)
 whitenoise==6.9.0
     # via project-1 (pyproject.toml)
 yarl==1.20.0

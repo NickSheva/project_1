@@ -1,37 +1,22 @@
+databases:
+  - name: mysitedb
+    plan: free
+    databaseName: mysite
+    user: mysite
+
 services:
   - type: web
-    name: django-app
+    plan: free
+    name: mysite
     runtime: python
-    plan: standard  # Минимальный рекомендуемый план для production
-
-    # Build commands
-    buildCommand: |
-      pip install --upgrade pip
-      pip install -r requirements.txt
-      python manage.py collectstatic --noinput
-      python manage.py migrate --noinput
-
-    # Production server configuration
-    startCommand: |
-      gunicorn config.wsgi:application \
-        --bind 0.0.0.0:$PORT \
-        --workers 2 \
-        --threads 2 \
-        --timeout 120 \
-        --max-requests 500 \
-        --max-requests-jitter 50
-
-    # Environment variables
+    buildCommand: './build.sh'
+    startCommand: 'python -m gunicorn mysite.asgi:application -k uvicorn.workers.UvicornWorker'
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mysitedb
+          property: connectionString
       - key: SECRET_KEY
         generateValue: true
-      - key: DEBUG
-        value: "False"
-      - key: DISABLE_COLLECTSTATIC
-        value: "0"
-      - key: PYTHONUNBUFFERED
-        value: "1"
-      - key: ALLOWED_HOSTS
-        value: "dpg-d0iu8cq4d50c73dvtj50-a.oregon-postgres.render.com *.onrender.com"
-      - key: DATABASE_URL
-        value: "postgresql://admin:3zli6AM6tHNYCfCligwOAJ48jEzfQdYO@dpg-d0iu8cq4d50c73dvtj50-a.oregon-postgres.render.com/dbname_a2fl"
+      - key: WEB_CONCURRENCY
+        value: 4l://admin:3zli6AM6tHNYCfCligwOAJ48jEzfQdYO@dpg-d0iu8cq4d50c73dvtj50-a.oregon-postgres.render.com/dbname_a2fl"
