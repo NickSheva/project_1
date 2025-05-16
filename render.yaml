@@ -9,12 +9,12 @@ services:
     startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
-        generateValue: true  # Пусть Render сам сгенерирует ключ
+        generateValue: true
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: your-app-name.onrender.com
+        value: dpg-d0iu8cq4d50c73dvtj50-a.oregon-postgres.render.com  # 🛠 Поставь реальное имя, не your-app-name!
       - key: DATABASE_URL
         fromDatabase:
-          name: your-db
-          property: connectionString  # Render подставит реальный URL
+          name: dbname_a2fl  # 🛠 Поменяй на точное имя БД в Render
+          property: connectionString

@@ -111,15 +111,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'PORT': '5432',
 #     }
 
-
 DATABASE_URL = env("DATABASE_URL")
 
-if DEBUG:
-    DATABASES = {
-        "default": env.db(default="sqlite:///db.sqlite3")
-    }
-else:
-    DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
+DATABASES = {
+    "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+}
+# DATABASE_URL = env("DATABASE_URL")
+#
+# if DEBUG:
+#     DATABASES = {
+#         "default": env.db(default="sqlite:///db.sqlite3")
+#     }
+# else:
+#     DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
 # Database
 # DATABASES = {
 #     'default': dj_database_url.config(
