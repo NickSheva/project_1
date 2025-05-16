@@ -109,6 +109,8 @@ pyparsing==3.2.3
     # via cloudscraper
 python-dateutil==2.9.0.post0
     # via pandas
+python-decouple==3.8
+    # via project-1 (pyproject.toml)
 python-dotenv==1.1.0
     # via dotenv
 pytz==2025.2

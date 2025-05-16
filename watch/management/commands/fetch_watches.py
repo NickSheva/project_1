@@ -18,7 +18,7 @@ import random
 # === Константы ===
 BASE_URL = "https://lombard-perspectiva.ru"
 MAX_PRODUCTS_PER_PAGE = 180
-CONCURRENCY_LIMIT = 20
+CONCURRENCY_LIMIT = 10
 RETRIES = 3
 # HEADERS = partial(lambda ua: {'User-Agent': ua.random}, UserAgent())
 ua = UserAgent()
@@ -59,7 +59,7 @@ class Command(BaseCommand):
 
 
     async def fetch(self, session: aiohttp.ClientSession, url: str, retries: int = RETRIES) -> Optional[str]:
-        timeout = aiohttp.ClientTimeout(total=5)
+        timeout = aiohttp.ClientTimeout(total=20)
         headers = make_headers()
         for attempt in range(retries):
             try:
@@ -70,7 +70,7 @@ class Command(BaseCommand):
                         text = await response.text()
                         logger.debug(f"Ответ сервера ({response.status}): {text[:300]}")
                     logger.warning(f"Попытка {attempt + 1}: Ошибка {response.status} при загрузке {url}")
-            except (aiohttp.ClientResponseError, asyncio.TimeoutError, aiohttp.ServerDisconnectedError) as e:
+            except (aiohttp.ClientResponseError, asyncio.TimeoutError, aiohttp.ServerDisconnectedError, aiohttp.ClientConnectorError) as e:
                 logger.warning(f"Попытка {attempt + 1}: {type(e).__name__} для {url}: {e}")
             except Exception as e:
                 logger.warning(f"Попытка {attempt + 1}: Ошибка при запросе {url}: {e}")
