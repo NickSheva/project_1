@@ -1,0 +1,6 @@
+{
+  "SECRET_KEY": "rft)y5&452m0qmhk*rsg*v3n#wog%+)xt%2=jd&!ruv$&f550=",
+  "DEBUG": "False",
+  "ALLOWED_HOSTS": ".railway.app,web-production-2dc9c.up.railway.app,localhost,127.0.0.1",
+  "DATABASE_URL": "postgresql://postgres:admin@containers-us-west-101.railway.app:5432/railway"
+}

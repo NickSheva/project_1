@@ -112,12 +112,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 
 # Replace the SQLite DATABASES configuration with PostgreSQL:
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.getenv('DATABASE_URL'),  # Чтение из переменной Railway
+#         conn_max_age=600,
+#         ssl_require=not DEBUG  # SSL для production
+#     )
+# }
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),  # Чтение из переменной Railway
-        conn_max_age=600,
-        ssl_require=not DEBUG  # SSL для production
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PGDATABASE', 'railway'),
+        'USER': os.getenv('PGUSER', 'postgres'),
+        'PASSWORD': os.getenv('PGPASSWORD'),
+        'HOST': os.getenv('PGHOST'),
+        'PORT': os.getenv('PGPORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+            'connect_timeout': 5
+        }
+    }
 }
 # DATABASE_URL = env("DATABASE_URL")
 #
@@ -206,3 +220,7 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
+
+
+CSRF_TRUSTED_ORIGINS = ['https://web-production-2dc9c.up.railway.app']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
