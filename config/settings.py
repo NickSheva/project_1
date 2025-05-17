@@ -29,7 +29,7 @@ TEMPLATE_DIR = BASE_DIR / 'templates'
 # ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # Security settings
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = env.bool("DEBUG", default=False)
 # Для ALLOWED_HOSTS
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
@@ -114,9 +114,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Replace the SQLite DATABASES configuration with PostgreSQL:
 DATABASES = {
     'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
-        conn_max_age=600
+        default=os.getenv('DATABASE_URL'),  # Чтение из переменной Railway
+        conn_max_age=600,
+        ssl_require=not DEBUG  # SSL для production
     )
 }
 # DATABASE_URL = env("DATABASE_URL")
@@ -199,4 +199,10 @@ logger.add(
 
 # Если нужно сохранять логи в файл, добавьте:
 # logger.add("logs/file_{time}.log", rotation="10 MB", retention="10 days")
-
+# Настройки HTTPS
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
